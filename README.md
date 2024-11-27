@@ -39,9 +39,9 @@ It lets you easily manage your phoenixd transactions and leverage the power of P
 - [ ] Choose default currency
 
 # Installing on Start9
-[Full Start9 instructions](https://github.com/hkarani/phoenixd-lightning-wallet-ui-startos)
+[Full Start9 instructions](https://github.com/ZapriteApp/phoenixd-lightning-wallet-ui-startos/)
 ### 1. Install as a Sideload Serivice
-1. Download phoenixd-lightning-wallet-ui.s9pk on your Start9os server by opening the [link] (https://github.com/hkarani/phoenixd-lightning-wallet-ui-startos/releases/download/v0.1.1/phoenixd-lightning-wallet-ui.s9pk)
+1. Download phoenixd-lightning-wallet-ui.s9pk on your Start9os server by opening the [link](https://github.com/ZapriteApp/phoenixd-lightning-wallet-ui-startos/releases/download/v0.1.2/phoenixd-lightning-wallet-ui.s9pk)
 
 2. Go **System > Sideload a Service**
 <p align="center">
@@ -57,7 +57,7 @@ It lets you easily manage your phoenixd transactions and leverage the power of P
 
 # Installing on Umbrel
 
-[Full Umbrell instructions](https://github.com/hkarani/umbrel-community-app-store)
+[Full Umbrell instructions](https://github.com/ZapriteApp/umbrel-community-app-store)
 
 1. Go **Umbrell App Store**  > and click **Community App Store** at the 3-dots menu
 <p align="center">
