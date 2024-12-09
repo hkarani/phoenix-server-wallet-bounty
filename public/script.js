@@ -1307,7 +1307,7 @@ $(document).ready(function () {
   });
 
   $('#github-link').on('click', function () {
-    window.open("https://github.com/hkarani/phoenix-server-lightning-wallet")
+    window.open("https://github.com/ZapriteApp/phoenix-server-wallet.git")
   });
 })
 
