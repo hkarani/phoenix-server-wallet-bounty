@@ -37,7 +37,7 @@ $(document).ready(function () {
             try {
                 const invoiceDetails = await getInvoiceDetails(payment.invoice);
                 if (invoiceDetails) {
-                    invoiceAmount = invoiceDetails.amount / 1000; // Convert amount as needed
+                    invoiceAmount = invoiceDetails.amount / 1000;
                     invoiceDescription = invoiceDetails.description;
                 } else {
                     invoiceAmount = "-";
@@ -294,27 +294,9 @@ $(document).ready(function () {
       return response.json();
     })
     .then(data => {
-      inboundLiquiditySat = data.channels[0].inboundLiquiditySat;
-      capacitySat = data.channels[0].capacitySat;
-      balanceSat = data.channels[0].balanceSat;
-      channelId = data.channels[0].channelId;
-
-      $('.inbound').html(`${inboundLiquiditySat}`);
-      $('.acinq').html(`${capacitySat} sats`);
-      $('.outbound').html(`${balanceSat}`);
-      $('.channelIdString').html(`${channelId}`);
-
-      inboundLiquiditySat = parseInt(inboundLiquiditySat)
-      capacitySat = parseInt(capacitySat)
-      balanceSat = parseInt(balanceSat)
-
-      let total = inboundLiquiditySat + balanceSat;
-      let inboundPercentage = 100 - (inboundLiquiditySat / total) * 100;
-
-
-      $('#progressBar').css('width', inboundPercentage + '%');
-
-      fetch('/api/getbtcprice')
+      if(!data.channels.length){
+        console.log("No channels are set!")
+        fetch('/api/getbalance')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -322,27 +304,76 @@ $(document).ready(function () {
           return response.json();
         })
         .then(data => {
-
-          btcPrice = parseInt(data.btcPrice);
-          let outBoundVal = (balanceSat / 100000000) * btcPrice
-          let inBoundVal = (inboundLiquiditySat / 100000000) * btcPrice
-
-          $('#btcPriceOutbound').html(`You can send &#8776 $${outBoundVal.toFixed(2)}`);
-          $('#btcPriceInbound').html(`You can receive &#8776 $${inBoundVal.toFixed(2)}`);
-
-
+          $('.balance').html(`${data.balanceSat} sats`);
+          $('.channelId').html(`
+            No channel created. Your fee credit sat amount is ${data.feeCreditSat}.<br>
+            <a href="https://phoenix.acinq.co/server/auto-liquidity" target="_blank" class="learn-more-link"> *Learn more about Phoenix auto-liquidity</a>
+        `);
         })
         .catch(error => {
           console.error('Error fetching balance:', error);
-          $('#btcPriceOutbound').html(`You can send $ ~`);
-          $('#btcPriceInbound').html(`You can receive $~`);
-
         });
+       
+      
 
+      }else {
+        inboundLiquiditySat = data.channels[0].inboundLiquiditySat;
+        capacitySat = data.channels[0].capacitySat;
+        balanceSat = data.channels[0].balanceSat;
+        channelId = data.channels[0].channelId;
+  
+        console.log(inboundLiquiditySat)
+        console.log(capacitySat)
+        console.log(balanceSat)
+        console.log(channelId)
+  
+        $('.inbound').html(`${inboundLiquiditySat}`);
+        $('.acinq').html(`${capacitySat} sats`);
+        $('.outbound').html(`${balanceSat}`);
+        $('.channelIdString').html(`${channelId}`);
+  
+        inboundLiquiditySat = parseInt(inboundLiquiditySat)
+        capacitySat = parseInt(capacitySat)
+        balanceSat = parseInt(balanceSat)
+  
+        let total = inboundLiquiditySat + balanceSat;
+        let inboundPercentage = 100 - (inboundLiquiditySat / total) * 100;
+  
+  
+        $('#progressBar').css('width', inboundPercentage + '%');
+  
+        fetch('/api/getbtcprice')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+          })
+          .then(data => {
+  
+            btcPrice = parseInt(data.btcPrice);
+            let outBoundVal = (balanceSat / 100000000) * btcPrice
+            let inBoundVal = (inboundLiquiditySat / 100000000) * btcPrice
+  
+            $('#btcPriceOutbound').html(`You can send &#8776 $${outBoundVal.toFixed(2)}`);
+            $('#btcPriceInbound').html(`You can receive &#8776 $${inBoundVal.toFixed(2)}`);
+  
+  
+          })
+          .catch(error => {
+            console.error('Error fetching balance:', error);
+            $('#btcPriceOutbound').html(`You can send $ ~`);
+            $('#btcPriceInbound').html(`You can receive $~`);
+  
+          });
+  
+      }
+
+     
 
     })
     .catch(error => {
-      console.error('Error fetching balance:', error);
+      console.error('Error getting node info:', error);
     });
 
 
