@@ -31,16 +31,32 @@ $(document).ready(function () {
           const endIndex = startIndex + itemsPerPage;
           const pageData = paymentsData.slice(startIndex, endIndex);
 
-          pageData.forEach(function (payment) {
-            // console.log(payment)
+          pageData.forEach(async function (payment) {
+            let invoiceAmount, invoiceDescription;
+
+            try {
+                const invoiceDetails = await getInvoiceDetails(payment.invoice);
+                if (invoiceDetails) {
+                    invoiceAmount = invoiceDetails.amount / 1000; // Convert amount as needed
+                    invoiceDescription = invoiceDetails.description;
+                } else {
+                    invoiceAmount = "-";
+                    invoiceDescription = "No description available"; // Fallback for description
+                }
+            } catch (error) {
+                console.error("Error getting invoice details:", error);
+                invoiceAmount = "-";
+                invoiceDescription = "Error fetching description";
+            }
+            console.log(payment.description)
             const transferITag = `<i class="bi bi-arrow-up-right"></i>`;
             const paymentITag = `<i class="bi bi-arrow-down-left"></i>`;
             const row = `
               <tr>
                   <td>${payment.hasOwnProperty("receivedSat") ? paymentITag : transferITag}</td>
                   <td>${formatTimestamp(payment.createdAt)}</td>
-                  <td>${payment.hasOwnProperty("description") ? truncateText(payment.description) : "-"}</td>
-                  <td>${payment.hasOwnProperty("receivedSat") ? payment.receivedSat : payment.sent}</td>
+                  <td>${payment.hasOwnProperty("description") ? truncateText(payment.description) : invoiceDescription }</td>
+                  <td>${payment.hasOwnProperty("receivedSat") ? invoiceAmount : payment.sent}</td>
                   <td>${payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer"}</td>
                   <td>${payment.isPaid ? 'Completed' : 'Uncompleted'}</td>
                   <td>
@@ -1593,4 +1609,30 @@ function generateRandomNumbers() {
     }
   }
   return numbers;
+}
+
+function getInvoiceDetails(invoice) {
+  return fetch('api/decodeinvoice', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ invoice }),
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error decoding invoice');
+      }
+      return response.json();
+  })
+  .then(data => {
+      return {
+        amount: data.amount,
+        description: data.description
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      return null; 
+  });
 }
