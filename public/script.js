@@ -48,7 +48,6 @@ $(document).ready(function () {
                 invoiceAmount = "-";
                 invoiceDescription = "Error fetching description";
             }
-            console.log(payment.description)
             const transferITag = `<i class="bi bi-arrow-up-right"></i>`;
             const paymentITag = `<i class="bi bi-arrow-down-left"></i>`;
             const row = `
@@ -60,7 +59,24 @@ $(document).ready(function () {
                   <td>${payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer"}</td>
                   <td>${payment.isPaid ? 'Completed' : 'Uncompleted'}</td>
                   <td>
-                    <button class="transaction-action-btn transaction-action-btn-icon" id="transaction-action" data-payment-hash="${payment.paymentHash}">
+                    <button class="transaction-action-btn transaction-action-btn-icon" id="transaction-action" data-transaction='${JSON.stringify({
+                        paymentHash: payment.paymentHash,
+                        preimage: payment.preimage,
+                        invoice: payment.invoice,
+                        fees: payment.fees,
+                        createdAt: payment.createdAt,
+                        completedAt: payment.completedAt || "",
+                        isPaid: payment.isPaid ? "Yes" : "No",
+                        status: payment.isPaid ? 'Completed' : 'Uncompleted',
+                        type: payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer",
+                        //Outgoing
+                        sent: payment.sent || null,
+                        //Incoming
+                        externalId: payment.externalId || null,
+                        description: payment.description || null,
+                        receivedSat: payment.receivedSat || null,
+                        
+                      })}'">
                       <i class="bi bi-three-dots-vertical"></i>
                     </button>
                   </td>
@@ -115,10 +131,26 @@ $(document).ready(function () {
             });
         }
 
-        $('#transaction-action').click(function () {
-          // const paymentId = $(this).data('payment-hash');
-          console.log("something logged")
+        $(document).on("click", ".transaction-action-btn", function () {
+          const transaction = $(this).data("transaction")
+          const transactionData = $(this).data("transaction")// Parse transaction data
+          const transactionDetailsGrid = $('#transactionDetailsGrid');
+          transactionDetailsGrid.empty();
+          $.each(transactionData, function (key, value) {
+              if (value !== undefined && value !== null) {
+                  // Create label div
+                  const labelDiv = $('<div>').text(key).css('font-weight', 'bold');
+                  transactionDetailsGrid.append(labelDiv);
+  
+                  // Create value div
+                  const valueDiv = $('<div>').text(value);
+                  transactionDetailsGrid.append(valueDiv);
+              }
+          });
 
+          //   // Show modal
+          $("#showTransactiontModal").fadeIn();
+          console.log(transaction);
         });
 
         $('#prevPage').click(function () {
@@ -422,7 +454,6 @@ $(document).ready(function () {
 
   $("#invoicePaymentOption").click(function () {
     var value = $(this).data("value");
-    console.log(value);
     $paymentTypeModal.hide();
     $invoicePaymentType.show();
   });
