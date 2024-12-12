@@ -15,22 +15,25 @@ $(document).ready(function () {
   });
 
   $('#home-page').on('click', '#transactions', function () {
+
     $.ajax({
       url: 'views/partials/transactions.ejs',
       method: 'GET',
       success: function (html) {
+        
         $('#rightPanel').html(html);
         const itemsPerPage = 8;
         let currentPage = 1;
         let paymentsData = [];
 
         function renderTablePage(page) {
+          
           const $tableBody = $('#paymentsTable tbody');
           $tableBody.empty();
           const startIndex = (page - 1) * itemsPerPage;
           const endIndex = startIndex + itemsPerPage;
           const pageData = paymentsData.slice(startIndex, endIndex);
-
+          $tableBody.empty();
           pageData.forEach(async function (payment) {
             let invoiceAmount, invoiceDescription;
 
@@ -48,7 +51,6 @@ $(document).ready(function () {
                 invoiceAmount = "-";
                 invoiceDescription = "Error fetching description";
             }
-            console.log(payment.description)
             const transferITag = `<i class="bi bi-arrow-up-right"></i>`;
             const paymentITag = `<i class="bi bi-arrow-down-left"></i>`;
             const row = `
@@ -60,16 +62,34 @@ $(document).ready(function () {
                   <td>${payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer"}</td>
                   <td>${payment.isPaid ? 'Completed' : 'Uncompleted'}</td>
                   <td>
-                    <button class="transaction-action-btn transaction-action-btn-icon" id="transaction-action" data-payment-hash="${payment.paymentHash}">
+                    <button class="transaction-action-btn transaction-action-btn-icon" id="transaction-action" data-transaction='${JSON.stringify({
+                        paymentHash: payment.paymentHash,
+                        preimage: payment.preimage,
+                        invoice: payment.invoice,
+                        fees: payment.fees,
+                        createdAt: payment.createdAt ? formatTimestamp(payment.createdAt) : "",
+                        completedAt: payment.completedAt ? formatTimestamp(payment.completedAt) : "",
+                        isPaid: payment.isPaid ? "Yes" : "No",
+                        status: payment.isPaid ? 'Completed' : 'Uncompleted',
+                        type: payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer",
+                        //Outgoing
+                        sent: payment.sent || null,
+                        //Incoming
+                        externalId: payment.externalId || null,
+                        description: payment.description || null,
+                        receivedSat: payment.receivedSat || null,
+                        
+                      })}'">
                       <i class="bi bi-three-dots-vertical"></i>
                     </button>
                   </td>
 
               </tr>
           `;
+          
             $tableBody.append(row);
           });
-
+         
           updatePaginationControls(page);
         }
 
@@ -115,10 +135,28 @@ $(document).ready(function () {
             });
         }
 
-        $('#transaction-action').click(function () {
-          // const paymentId = $(this).data('payment-hash');
-          console.log("something logged")
-
+        $(document).on("click", ".transaction-action-btn", function () {
+          const transaction = $(this).data("transaction")
+          const transactionData = $(this).data("transaction")// Parse transaction data
+          const transactionDetailsGrid = $('#transactionDetailsGrid');
+          transactionDetailsGrid.empty();
+          $.each(transactionData, function (key, value) {
+              if (value !== undefined && value !== null) {
+                  // Create label div
+                  const labelDiv = $('<div>').text(key).css('font-weight', 'bold');
+                  transactionDetailsGrid.append(labelDiv);
+  
+                  // Create value div
+                  const valueDiv = $('<div>').text(value);
+                  transactionDetailsGrid.append(valueDiv);
+              }
+          });
+          $("#showTransactiontModal").on("click", "#doneTransactionModal", function () {
+            $("#showTransactiontModal").fadeOut();
+          });
+          //   // Show modal
+          $("#showTransactiontModal").fadeIn();
+          console.log(transaction);
         });
 
         $('#prevPage').click(function () {
@@ -146,10 +184,12 @@ $(document).ready(function () {
   });
 
   $('#home-page').on('click', '#contacts', function () {
+    event.preventDefault();
     $.ajax({
       url: 'views/partials/contacts.ejs',
       method: 'GET',
       success: function (html) {
+        $('#rightPanel').html('');
         $('#rightPanel').html(html);
         const itemsPerPage = 8;
         let currentPage = 1;
@@ -422,7 +462,6 @@ $(document).ready(function () {
 
   $("#invoicePaymentOption").click(function () {
     var value = $(this).data("value");
-    console.log(value);
     $paymentTypeModal.hide();
     $invoicePaymentType.show();
   });
