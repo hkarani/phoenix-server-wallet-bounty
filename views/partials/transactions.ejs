@@ -116,8 +116,29 @@
             align-items: center;
         }
 
-    </style>
-</head>
+        .transaction-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 10px; /* Space between rows */
+            color: white;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .transaction-grid div {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+        }
+
+        .transaction-grid div:nth-child(odd) {
+            font-weight: bold; /* Highlight labels */
+        }
+
+
+</style>
+
+</body>
     <h2>Transactions</h2>
     <h3> Activity</h3>
     <p> Your full activity history for this account.</p>
@@ -149,5 +170,15 @@
 </body>
 
 
+<div id="showTransactiontModal" class="modal">
+    <div class="modal-content">
+        <span id="xshowTransactionModal" class="close" data-modal="showTransactiontModal">&times;</span>
+        <h2>Transaction Details</h2>
+        <div id="transactionDetailsGrid" class="transaction-grid">
+        </div>
+        <button class="" type="button" id="closeTransactionModal"><i class="bi bi-x"></i>Close</button>
+        <button class="" type="button" id="doneTransactionModal">Done <i class="bi bi-check2"></i></button>
+    </div>
+</div>
 
 <script src="/public/script.js"></script>
