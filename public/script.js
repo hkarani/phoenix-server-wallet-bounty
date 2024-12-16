@@ -79,7 +79,7 @@ $(document).ready(function () {
                         description: payment.description || null,
                         receivedSat: payment.receivedSat || null,
                         
-                      })}'">
+                      })}'>
                       <i class="bi bi-three-dots-vertical"></i>
                     </button>
                   </td>
@@ -143,7 +143,12 @@ $(document).ready(function () {
           $.each(transactionData, function (key, value) {
               if (value !== undefined && value !== null) {
                   // Create label div
-                  const labelDiv = $('<div>').text(key).css('font-weight', 'bold');
+                  const labelDiv = $('<div>').text(key).css(
+                    {
+                      'font-weight': 'bold',
+                      'color': '#f19528'  
+                    }
+                  );
                   transactionDetailsGrid.append(labelDiv);
   
                   // Create value div
@@ -151,6 +156,10 @@ $(document).ready(function () {
                   transactionDetailsGrid.append(valueDiv);
               }
           });
+          $("#showTransactiontModal").on("click", "#doneTransactionModal", function () {
+            $("#showTransactiontModal").fadeOut();
+          });
+
           $("#showTransactiontModal").on("click", "#doneTransactionModal", function () {
             $("#showTransactiontModal").fadeOut();
           });
@@ -210,7 +219,17 @@ $(document).ready(function () {
                   <td>${truncateText(contact.offer, 20)}</td>
                   <td>${truncateText(contact.address, 20)}</td>
                   <td>Active</td>
-                  <td><i class="bi bi-three-dots-vertical"></i></td>
+                  <td>
+                    <button class="contact-action-btn contact-action-btn-icon" id="contact-action" data-contact='${JSON.stringify({
+                      id: contact.id,
+                      name: contact.name,
+                      offer: contact.offer,
+                      address: contact.address,
+                      dateAdded: formatTimestamp(contact.dateAdded)
+                    })}'>
+                    <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                  </td>
               </tr>
           `;
             $tableBody.append(row);
@@ -260,6 +279,39 @@ $(document).ready(function () {
             });
 
         }
+
+        $(document).on("click", ".contact-action-btn", function () {
+          const contact = $(this).data("contact")
+          const contactData = $(this).data("contact")
+          const contactDetailsGrid = $('#contactDetailsGrid');
+          contactDetailsGrid.empty();
+          $.each(contactData, function (key, value) {
+              if (value !== undefined && value !== null) {
+                  // Create label div
+                  const labelDiv = $('<div>').text(key).css(
+                    {
+                      'font-weight': 'bold',
+                      'color': '#f19528'  
+                    }
+                  );
+                  contactDetailsGrid.append(labelDiv);
+  
+                  // Create value div
+                  const valueDiv = $('<div>').text(value);
+                  contactDetailsGrid.append(valueDiv);
+              }
+          });
+          $("#showContactActionModal").on("click", "#doneContactActionModal", function () {
+            $("#showContactActionModal").fadeOut();
+          });
+
+          $("#showContactActionModal").on("click", "#closeContactActionModal", function () {
+            $("#showContactActionModal").fadeOut();
+          });
+          //   // Show modal
+          $("#showContactActionModal").fadeIn();
+          console.log(contact);
+        });
 
         $('#prevPage').click(function () {
           if (currentPage > 1) {

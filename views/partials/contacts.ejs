@@ -179,6 +179,87 @@
         border-radius: 10px;
     }
 
+    .contact-action-btn {
+        padding: 0;
+        width: auto; 
+        height: auto; 
+        cursor: pointer;
+        background-color: #111;
+        border: none;
+        outline: none;
+        /* box-shadow: 0 0 3px #f19528 */
+    } 
+
+
+    .contact-action-btn-icon i {
+        font-size: 0.6rem;
+        color: white;
+    }
+
+    .contact-action-btn-icon:hover {
+        color: #f0ad4e; 
+    }
+
+    .contacts-grid {   
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 10px; /* Space between rows */
+        color: white;
+        margin-top: 20px;
+        font-size: 14px;
+        overflow-y: scroll; /* Enable vertical scrolling if needed */
+        max-height: 300px; /* Constrain the grid height */
+        padding-right: 10px;
+    }
+
+    .contacts-grid div {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .contacts-grid div:nth-child(odd) {
+        font-weight: bold; /* Highlight labels */
+    }
+
+    #contactDetailsGrid div:nth-child(even) {
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .contacts-grid::-webkit-scrollbar {
+        width: 8px; 
+    }
+
+    .contacts-grid::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 4px;
+    }
+
+    .contacts-grid::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+    }
+
+    .contacts-grid::-webkit-scrollbar-track {
+        background: #333; 
+    }
+
+    #doneContactActionModal {
+        background-color: #f09026;
+        color: white;
+        font-size: 16px;
+        padding: 10px;
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #f09026;
+    }
+
+
+
 
 </style>
 
@@ -256,9 +337,9 @@
     </div>
 </div>
 
-<div id="showContatctActionModal" class="modal">
+<div id="showContactActionModal" class="modal">
     <div class="modal-content">
-        <span id="showContatctActionModal" class="close" data-modal="showContatctActionModal">&times;</span>
+        <span id="closeContactActionModal" class="close" data-modal="closeContactActionModal">&times;</span>
         <h2>Contact Details</h2>
         <div id="contactDetailsGrid" class="contacts-grid">
         </div>
