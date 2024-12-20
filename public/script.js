@@ -27,9 +27,25 @@ $(document).ready(function () {
         let paymentsData = [];
 
         function renderTablePage(page) {
-          
+          const tableHtml = `
+              <thead>
+                  <tr>
+                      <th></th>
+                      <th>TimeStamp</th>
+                      <th>Label</th>
+                      <th>Amount</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Table rows will be inserted here by JavaScript -->
+              </tbody>
+          `; 
+          const $tableContent = $('#paymentsTable');
+          $tableContent.html(tableHtml)
           const $tableBody = $('#paymentsTable tbody');
-          $tableBody.empty();
           const startIndex = (page - 1) * itemsPerPage;
           const endIndex = startIndex + itemsPerPage;
           const pageData = paymentsData.slice(startIndex, endIndex);
@@ -205,6 +221,23 @@ $(document).ready(function () {
         let contactsData = [];
 
         function renderTablePage(page) {
+          const contactsTableHtml = `
+            <thead>
+              <tr>
+                  <th>Date Added</th>
+                  <th>Label </th>
+                  <th>Offer</th>
+                  <th>Lightning Address</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be inserted here by JavaScript -->
+            </tbody>
+          `;
+          const $contactsTableContents = $('#contactsTable')
+          $contactsTableContents.html(contactsTableHtml)
           const $tableBody = $('#contactsTable tbody');
           $tableBody.empty();
           const startIndex = (page - 1) * itemsPerPage;
