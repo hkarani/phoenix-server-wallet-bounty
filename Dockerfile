@@ -22,9 +22,10 @@ RUN touch .env
 
 
 
-RUN wget https://github.com/ACINQ/phoenixd/releases/download/v0.3.3/phoenix-0.3.3-linux-x64.zip \
-    && unzip -j phoenix-0.3.3-linux-x64.zip -d /usr/local/bin/ \
-    && chmod +x /usr/local/bin/phoenixd
+RUN wget https://github.com/ACINQ/phoenixd/releases/download/v0.4.2/phoenix-0.4.2-linux-x64.zip \
+    && unzip -j phoenix-0.4.2-linux-x64.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/phoenixd \
+    && rm phoenix-0.4.2-linux-x64.zip
 
 RUN chmod -R 755 /usr/src/app/start.sh
 
