@@ -1253,16 +1253,18 @@ $(document).ready(function () {
   var $confirmSeedPhraseModal = $("#confirmSeedPhraseModal")
   let errorMessage = $('#update-password-error-message');
 
-  let randomNumberArr = generateRandomNumbers()
+  const randomNumberArr = generateRandomNumbers()
 
   $("#updatePassword").click(function () {
     
-    
-   
     $('.seed-form label').each(function(index) {
       $(this).text(`Seed Word ${randomNumberArr[index]}:`);
     });
     $confirmSeedPhraseModal.show();
+  });
+
+  $("#okFailedConfirmSeed").click(function () {
+    $failedConfirmSeedModal.hide();
   });
 
 
@@ -1295,11 +1297,17 @@ $(document).ready(function () {
       let confirmedSeedWords = []
       let seedStr = data.seed
       let walletSeedWords = seedStr.split(" ")
+      
       confirmedSeedWords.push(walletSeedWords[randomNumberArr[0]-1], walletSeedWords[randomNumberArr[1]-1],
         walletSeedWords[randomNumberArr[2] - 1], walletSeedWords[randomNumberArr[3] - 1]
-       )
+      )
 
        let allMatch = seedWordsInput.every((str, index) => str === confirmedSeedWords[index]);
+
+       console.log(allMatch)
+       console.log(seedWordsInput)
+       console.log(randomNumberArr)
+       console.log(confirmedSeedWords)
 
        if (allMatch) {
          console.log("All strings match the array elements.");
