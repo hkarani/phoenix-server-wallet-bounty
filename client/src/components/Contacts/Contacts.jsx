@@ -11,6 +11,8 @@ const Contacts = () => {
   const [isImportContactModalModalOpen, setIsImportContactModalOpen] = useState(false);
   const [isShowContactActionModalOpen, setIsShowContactActionModalOpen] = useState(false);
   const [isSuccessContactAddedModalOpen, setIsSuccessContactAddedModalOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
+  
 
 
   const itemsPerPage = 8;
@@ -190,13 +192,14 @@ const Contacts = () => {
                 <td>
                   <button
                     className="contact-action-btn contact-action-btn-icon"
-                    data-contact={JSON.stringify({
+                    onClick={ () => setSelectedContact({
                       id: contact.id,
                       name: contact.name,
                       offer: contact.offer,
                       address: contact.address,
                       dateAdded: formatDate(contact.dateAdded)
                     })}
+
                   >
                     <i className="bi bi-three-dots-vertical" onClick={openShowContactActionModal}></i>
                   </button>
@@ -243,9 +246,9 @@ const Contacts = () => {
       )}
 
       {/* Show Contact Modal */}
-      {isShowContactActionModalOpen && (
-        <ShowContactActionModal closeModal={closeModal}
-          contactData={contactsData} />
+      {selectedContact && (
+        <ShowContactActionModal closeModal={() => setSelectedContact(null)}
+          contactData={selectedContact} />
       )}
 
     </div>

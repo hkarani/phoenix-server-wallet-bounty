@@ -15,7 +15,7 @@ const ShowContactActionModal = ({ closeModal, contactData }) => {
         </span>
         <h2>Contact Details</h2>
         <div id="contactDetailsGrid" className="contacts-grid">
-          {Object.entries(contactData[0]).map(([key, value]) => (
+          {Object.entries(contactData).map(([key, value]) => (
             value !== undefined && value !== null && (
               <React.Fragment key={key}>
                 <div className='showContactModalKey'>{key}</div>

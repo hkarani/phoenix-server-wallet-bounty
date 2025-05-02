@@ -83,7 +83,7 @@ const Transactions = () => {
                 isPaid: payment.isPaid ? "Yes" : "No" || "~",
                 type: payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer",
                 status: payment.isPaid ? "Completed" : "Uncompleted",
-                sent: intlNumberFormat(payment.sent) || "~",
+                sent: payment.sent ? (payment.sent ? intlNumberFormat(payment.sent) : "~") : null,
                 //Incoming
                 externalId: payment.externalId || null,
                 description: payment.description || null,
@@ -188,7 +188,7 @@ const Transactions = () => {
           <span id="pageInfo">Page {currentPage} of {totalPages}</span>
           <button id="nextPage" onClick={handleNextPage} disabled={currentPage === totalPages} className="pagination-button">Next</button>
         </div>
-        <button id="exportCsv" className="export-button" onClick={handleExportCsv}>Export CSV</button>
+        <button id="exportCsv" className="export-button" onClick={handleExportCsv}>Export CSV <i className="bi bi-filetype-csv"></i> </button>
       </div>
 
       {/* Modal */}
