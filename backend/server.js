@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 let url = process.env.BACKEND_API_URL
-const port = 5000;
+const port = 32400;
 // const corsOptions = {
 //   origin: url, 
 //   methods: 'GET,POST,OPTIONS',
@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cors(corsOptions));
 app.use(
   cors({
-    origin: ["http://localhost:5000", "http://localhost:3001"],
+    origin: ["http://localhost:32400", "http://localhost:3001"],
     credentials: true,
   })
 );
