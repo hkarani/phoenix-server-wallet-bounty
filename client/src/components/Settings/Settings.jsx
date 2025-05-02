@@ -152,6 +152,7 @@ const Settings = () => {
         setErrorMessage('');
         closeModal();
         setIsSuccessPasswordSetModalOpen(true);
+        window.location.reload()
       })
       .catch(error => {
         console.error('Error saving password:', error);
