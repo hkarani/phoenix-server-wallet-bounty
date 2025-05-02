@@ -286,6 +286,10 @@ router.get('/ispasswordset', (req, res) => {
 
 router.get('/authenticate', async (req, res) => {
     const storedPassword = db.data?.password?.[0]?.password || null;
+    if(storedPassword == null){
+        return res.status(200).json({ success: true });
+
+    }
     const timeStamp = db.data?.password?.[0]?.timeStamp || null;
 
     const isSessionExpired = utils.checkIsSessionExpired(timeStamp)
