@@ -84,14 +84,14 @@ const Dashboard = ({ setAuthenticated}) => {
 
           <div className="footer">
             {passwordSet && (
-              <div className="footer-item" id="log-out">
+              <div className="footer-item" id="log-out" onClick={handleLogOutClick}>
                 <i className="bi bi-box-arrow-right footer-icon"></i>
                 <button id="home" onClick={handleLogOutClick}>
                   <span className="footer-text">Log Out</span>
                 </button>
               </div>
             )}
-            <div className="footer-item" id="github-link">
+            <div className="footer-item" id="github-link" onClick={handleGitHubClick}>
               <button id="home" onClick={handleGitHubClick}>
                 <span className="footer-text">Version 0.1.7-beta</span>
               </button>

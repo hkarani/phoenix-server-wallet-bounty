@@ -27,10 +27,10 @@ const Home = () => {
   const [balance, setBalance] = useState(null);
   const [info, setInfo] = useState(null);
   const [bolt12Offer, setBolt12Offer] = useState(null);
-  const [inbound, setInbound] = useState(0);
-  const [outbound, setOutbound] = useState(0);
-  const [capacity, setCapacity] = useState(0);
-  const [channelId, setChannelId] = useState('');
+  const [inbound, setInbound] = useState(parseInt(12223));
+  const [outbound, setOutbound] = useState(parseInt(30283));
+  const [capacity, setCapacity] = useState(parseInt(46258));
+  const [channelId, setChannelId] = useState("dasfoewijf29u92ue2endnsjnde");
   const [invoiceString, setInvoiceString] = useState('');
   const [btcPrice, setBtcPrice] = useState(null);
   const [feeCredit, setFeeCredit] = useState(null);
@@ -73,10 +73,10 @@ const Home = () => {
         setBalanceOnly(balanceData);
         if (data.channels && data.channels.length > 0) {
           const channel = data.channels[0];
-          setInbound(parseInt(channel.inboundLiquiditySat));
-          setOutbound(parseInt(channel.balanceSat));
-          setCapacity(channel.capacitySat);
-          setChannelId(channel.channelId);
+          setInbound(parseInt(12223));
+          setOutbound(parseInt(30283));
+          setCapacity(parseInt(46258));
+          setChannelId("dasfoewijf29u92ue2endnsjnde");
         };
 
         try {
@@ -214,21 +214,21 @@ const Home = () => {
         <>
           <div className="row balanceRow">
             <div className="progressBarContainer">
-              <div id="progressBar" style={{ width: `${inboundPercentage}%` }}></div>
+              <div id="progressBar" style={{ width: `${inboundPercentage}%` , height: '100%', backgroundColor: 'white'}}></div>
             </div>
 
             <div className="col balanceCol">
               <div className="balanceValue balanceItem">
                 <p>Outbound <i className="bi bi-arrow-right"></i></p>
                 <p className="outbound">{intlNumberFormat(outbound)}</p>
-                <p id="btcPriceOutbound">{usdValue(outbound)}</p>
+                <p id="btcPriceOutbound">You can send {usdValue(outbound)}</p>
               </div>
 
               <div className="balanceValue balanceItem">
                 <p>Acinq</p>
                 <p className="acinq">{intlNumberFormat(capacity)} sats</p>
                 <span className="channelId" id="channelId">
-                  <span className="channelIdString"></span>
+                  <span className="channelIdString">{channelId}</span>
                   <button className="copy-btn" id="copyChannelIdIcon">
                     <i className="bi bi-copy"></i>
                   </button>
@@ -240,7 +240,7 @@ const Home = () => {
                   <i className="bi bi-arrow-left"></i> Inbound
                 </p>
                 <p className="inbound-styling inbound">{intlNumberFormat(inbound)} sats</p>
-                <p id="btcPriceInbound">{usdValue(inbound)}</p>
+                <p id="btcPriceInbound">You can recieve {usdValue(inbound)}</p>
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ const Home = () => {
                     (
                       <>
                         <span className="channelId" id="channelId">
-                          No channel created. Your fee credit sat amount is{'~'}
+                          No channel created. Your fee credit sat amount is {'~'}
                           <br />
                           <a
                             href="https://phoenix.acinq.co/server/auto-liquidity"
