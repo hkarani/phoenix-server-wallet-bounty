@@ -72,11 +72,15 @@ const Home = () => {
         const balanceData = await balanceRes.json();
         setBalanceOnly(balanceData);
         if (data.channels && data.channels.length > 0) {
+          // setInbound(parseInt(12223));
+          // setOutbound(parseInt(30283));
+          // setCapacity(parseInt(46258));
+          // setChannelId("dasfoewijf29u92ue2endnsjnde");
           const channel = data.channels[0];
-          setInbound(parseInt(12223));
-          setOutbound(parseInt(30283));
-          setCapacity(parseInt(46258));
-          setChannelId("dasfoewijf29u92ue2endnsjnde");
+          setInbound(parseInt(channel.inboundLiquiditySat));
+          setOutbound(parseInt(channel.balanceSat));
+          setCapacity(channel.capacitySat);
+          setChannelId(channel.channelId);
         };
 
         try {
@@ -197,7 +201,7 @@ const Home = () => {
     <>
       <div className="heading-home">Home</div>
       <div className="heading">Balance</div>
-      <div className="row balanceRow">
+      <div className="balanceRow">
         <div className="col balanceCol">
           <button id="sendButton" onClick={openPaymentTypeModal}>Send <i className="bi bi-arrow-up-right"></i></button>
           {balance ? (
@@ -212,9 +216,9 @@ const Home = () => {
       <div className="heading">Liquidity</div>
       {channelId ? (
         <>
-          <div className="row balanceRow">
+          <div className="balanceRow">
             <div className="progressBarContainer">
-              <div id="progressBar" style={{ width: `${inboundPercentage}%` , height: '100%', backgroundColor: 'white'}}></div>
+              <div id="progressBar" style={{ width: `${inboundPercentage}%`}}></div>
             </div>
 
             <div className="col balanceCol">
@@ -247,7 +251,7 @@ const Home = () => {
         </>
       ) : (
         <>
-          <div className="row balanceRow">
+          <div className="balanceRow">
             <div className="progressBarContainer">
               <div id="progressBar"></div>
             </div>
