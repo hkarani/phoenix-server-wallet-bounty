@@ -26,10 +26,10 @@ const Home = () => {
   const [copied, setCopied] = useState(false);
   const [balance, setBalance] = useState(null);
   const [bolt12Offer, setBolt12Offer] = useState(null);
-  const [inbound, setInbound] = useState(parseInt(12223));
-  const [outbound, setOutbound] = useState(parseInt(30283));
-  const [capacity, setCapacity] = useState(parseInt(46258));
-  const [channelId, setChannelId] = useState("dasfoewijf29u92ue2endnsjnde");
+  const [inbound, setInbound] = useState(null);
+  const [outbound, setOutbound] = useState(null);
+  const [capacity, setCapacity] = useState(null);
+  const [channelId, setChannelId] = useState(null);
   const [invoiceString, setInvoiceString] = useState('');
   const [btcPrice, setBtcPrice] = useState(null);
   const [feeCredit, setFeeCredit] = useState(null);
@@ -61,15 +61,12 @@ const Home = () => {
         const balanceRes = await fetch('api/getbalance');
         const balanceData = await balanceRes.json();
         setBalanceOnly(balanceData);
+        
         if (data.channels && data.channels.length > 0) {
-          // setInbound(parseInt(12223));
-          // setOutbound(parseInt(30283));
-          // setCapacity(parseInt(46258));
-          // setChannelId("dasfoewijf29u92ue2endnsjnde");
           const channel = data.channels[0];
           setInbound(parseInt(channel.inboundLiquiditySat));
           setOutbound(parseInt(channel.balanceSat));
-          setCapacity(channel.capacitySat);
+          setCapacity(parseInt(channel.capacitySat));
           setChannelId(channel.channelId);
         };
 
@@ -195,13 +192,13 @@ const Home = () => {
         <>
           <div className="balanceRow">
             <div className="progressBarContainer">
-              <div id="progressBar" style={{ width: `${inboundPercentage}%`}}></div>
+              <div id="progressBar" style={{ width: `${inboundPercentage}%` }}></div>
             </div>
 
             <div className="col balanceCol">
               <div className="balanceValue balanceItem">
                 <p>Outbound <i className="bi bi-arrow-right"></i></p>
-                <p className="outbound">{intlNumberFormat(outbound)}</p>
+                <p className="outbound">{intlNumberFormat(outbound)} sats</p>
                 <p id="btcPriceOutbound">You can send {usdValue(outbound)}</p>
               </div>
 
@@ -211,7 +208,7 @@ const Home = () => {
                 <span className="channelId" id="channelId">
                   <span className="channelIdString">{channelId}</span>
                   <button className="copy-btn" id="channelIdStr" onClick={() => handleCopyClick(channelId, "channelId")}>
-                  {copied === "channelId" ? (
+                    {copied === "channelId" ? (
                       <i className="bi bi-check-lg"></i>
                     ) : (
                       <i className="bi bi-copy"></i>
@@ -309,7 +306,7 @@ const Home = () => {
                 <span className="bolt12Offer" id="bolt12Offer">{bolt12Offer}</span>
                 <span className="icons">
                   <button id="copyOffer" className="copy-btn" onClick={() => handleCopyClick(bolt12Offer, "copyOffer")}>
-                    {copied ==="copyOffer" ? (
+                    {copied === "copyOffer" ? (
                       <i className="bi bi-check-lg"></i>
                     ) : (
                       <i className="bi bi-copy"></i>
