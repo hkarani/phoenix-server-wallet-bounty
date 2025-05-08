@@ -25,7 +25,6 @@ const Home = () => {
   const [isSharePaymentRequestModalOpen, setIsSharePaymentRequestModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [balance, setBalance] = useState(null);
-  const [info, setInfo] = useState(null);
   const [bolt12Offer, setBolt12Offer] = useState(null);
   const [inbound, setInbound] = useState(parseInt(12223));
   const [outbound, setOutbound] = useState(parseInt(30283));
@@ -37,15 +36,6 @@ const Home = () => {
   const [balanceOnly, setBalanceOnly] = useState(null);
   const [failedPaymentReason, setFailedPaymentReason] = useState('');
   useEffect(() => {
-
-    fetch('api/getinfo')
-      .then(res => res.json())
-      .then(data => {
-        setInfo(data);
-      })
-      .catch(err => {
-        console.error('Failed to fetch:', err);
-      });
 
     fetch('api/getbalance')
       .then(res => res.json())
@@ -149,15 +139,6 @@ const Home = () => {
     setIsSuccessfulPaymentModalOpen(true);
   }
 
-  const openFailedPaymentModal = () => {
-    setTimeout(() => {
-      setIsContactPaymentTypeModalOpen(false);
-      setIsInvoicePaymentTypeModalOpen(false)
-      setIsOfferPaymentTypeModalOpen(false)
-    }, 100)
-    setIsFailedPaymentModalOpen(true);
-  }
-
   const handleFailedPayement = (reason) => {
     setFailedPaymentReason(reason || 'Payment failed.');
     setIsContactPaymentTypeModalOpen(false);
@@ -166,10 +147,6 @@ const Home = () => {
   }
   const openPaymentRequestModal = () => {
     setIsPaymentRequestModalOpen(true)
-  }
-
-  const openSharePaymentRequestModal = () => {
-    setIsSharePaymentRequestModalOpen(true)
   }
 
   const closeModal = () => {
@@ -277,6 +254,7 @@ const Home = () => {
                           <a
                             href="https://phoenix.acinq.co/server/auto-liquidity"
                             target="_blank"
+                            rel="noreferrer"
                             className="learn-more-link"
                           >
                             *Learn more about Phoenix auto-liquidity
@@ -293,6 +271,7 @@ const Home = () => {
                           <a
                             href="https://phoenix.acinq.co/server/auto-liquidity"
                             target="_blank"
+                            rel="noreferrer"
                             className="learn-more-link"
                           >
                             *Learn more about Phoenix auto-liquidity
