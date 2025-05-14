@@ -58,17 +58,14 @@ const Transactions = () => {
         invoiceDetails = await getInvoiceDetails(payment.invoice);
       }
 
-      const invoiceAmount = invoiceDetails?.amount ? invoiceDetails.amount / 1000 : "-";
-      const invoiceDescription = invoiceDetails?.description || "~";
-
       const icon = payment.hasOwnProperty("receivedSat") ? "bi-arrow-down-left" : "bi-arrow-up-right";
 
       return (
         <tr key={`${payment.paymentHash}-${index}`}>
           <td><i className={`bi ${icon}`}></i></td>
           <td>{formatTimestamp(payment.createdAt)}</td>
-          <td>{payment.description ? truncateText(payment.description) : invoiceDescription}</td>
-          <td>{Number.isInteger(invoiceAmount) ? intlNumberFormat(invoiceAmount) : "~"}</td>
+          <td>{payment.description ? truncateText(payment.description) : payment.payerNote ? truncateText(payment.payerNote): "~"}</td>
+          <td>{Number.isInteger(payment.receivedSat) ? intlNumberFormat(payment.receivedSat): Number.isInteger(payment.sent)? intlNumberFormat(payment.sent) : "~"} </td>
           <td>{payment.hasOwnProperty("receivedSat") ? "Payment" : "Transfer"}</td>
           <td>{payment.isPaid ? 'Completed' : 'Uncompleted'}</td>
           <td>
