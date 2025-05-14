@@ -167,7 +167,7 @@ const InvoicePaymentTypeModal = ({ backToPaymentTypeModal, closeModal, openSucce
             </div>
             <div className="decoded-invoice-item">
               <p className="fees">Fee:</p>
-              <p className="fees">~ sats</p>
+              <p className="fees">- sats</p>
             </div>
           </div>
         )}
