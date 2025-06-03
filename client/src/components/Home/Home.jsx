@@ -206,7 +206,7 @@ const Home = () => {
                 <p>Acinq</p>
                 <p className="acinq">{intlNumberFormat(capacity)} sats</p>
                 <span className="channelId" id="channelId">
-                  <span className="channelIdString">{channelId}</span>
+                  <span className="channelIdString">{typeof channelId === 'string' ? channelId : JSON.stringify(channelId)}</span>
                   <button className="copy-btn" id="channelIdStr" onClick={() => handleCopyClick(channelId, "channelId")}>
                     {copied === "channelId" ? (
                       <i className="bi bi-check-lg"></i>
@@ -303,7 +303,7 @@ const Home = () => {
           <div className="stringBox">
             {bolt12Offer ? (
               <>
-                <span className="bolt12Offer" id="bolt12Offer"> {bolt12Offer}</span>
+                <span className="bolt12Offer" id="bolt12Offer"> {typeof bolt12Offer === 'string' ? bolt12Offer : JSON.stringify(bolt12Offer)}</span>
                 <span className="icons">
                   <button id="copyOffer" className="copy-btn" onClick={() => handleCopyClick(bolt12Offer, "copyOffer")}>
                     {copied === "copyOffer" ? (
