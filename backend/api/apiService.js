@@ -13,11 +13,8 @@ const httpPassword = configs["http-password"];
 const headers = {
   'Authorization': 'Basic ' + Buffer.from(`${username}:${httpPassword}`).toString('base64')
 };
-console.log('Using base URL:', baseUrl);
 export const getBalance = async () => {
-  const path = '/getbalance';
-  const url = new URL(path, baseUrl).href;
-  console.log('Using base URL:',url);
+  const url = 'http://127.0.0.1:9740/getbalance';
   try {
     const response = await axios.get(url, { headers });
     return response.data;
@@ -28,9 +25,7 @@ export const getBalance = async () => {
 }
 
 export const payInvoice = async (amountSat, invoice) => {
-  const path = '/payinvoice';
-  const url = new URL(path, baseUrl).href;
-
+  const url = 'http://127.0.0.1:9740/payinvoice';
   const data = new URLSearchParams();
   if (amountSat) {
     data.append('amountSat', amountSat);
@@ -49,8 +44,7 @@ export const payInvoice = async (amountSat, invoice) => {
 }
 
 export const getNodeInfo = async () => {
-  const path = '/getinfo';
-  const url = new URL(path, baseUrl).href;
+  const url = 'http://127.0.0.1:9740/getinfo';
   try {
     const response = await axios.get(url, { headers });
     return response.data;
@@ -61,9 +55,7 @@ export const getNodeInfo = async () => {
 }
 
 export const createInvoice = async (description, amountSat, externalId, webhookUrl) => {
-  const path = '/createinvoice';
-  const url = new URL(path, baseUrl).href;
-
+  const url = 'http://127.0.0.1:9740/createinvoice';
   const data = new URLSearchParams();
   data.append('description', description);
   data.append('amountSat', amountSat);
@@ -79,9 +71,7 @@ export const createInvoice = async (description, amountSat, externalId, webhookU
 }
 
 export const getIncomingPayments = async (from, to, limit, offset, all) => {
-  const path = '/payments/incoming';
-  const url = new URL(path, baseUrl).href;
-
+  const url = 'http://127.0.0.1:9740/payments/incoming';
   const params = {
     from: from,
     to: to,
@@ -100,8 +90,7 @@ export const getIncomingPayments = async (from, to, limit, offset, all) => {
 
 
 export const getOutgoingPayments = async (from, to, limit, offset, all) => {
-  const path = '/payments/outgoing';
-  const url = new URL(path, baseUrl).href;
+  const url = 'http://127.0.0.1:9740/payments/outgoing';
   const params = {
     from: from,
     to: to,
@@ -120,9 +109,7 @@ export const getOutgoingPayments = async (from, to, limit, offset, all) => {
 }
 
 export const payOffer = async (amountSat, offer, message) => {
-  const path = '/payoffer';
-  const url = new URL(path, baseUrl).href;
-
+  const url = 'http://127.0.0.1:9740/payoffer';
   let data = new URLSearchParams();
   data.append('amountSat', amountSat);
   data.append('offer', offer);
@@ -137,9 +124,7 @@ export const payOffer = async (amountSat, offer, message) => {
 };
 
 export const payLnAddress = async (amountSat, lnAddress, message) => {
-  const path = '/paylnaddress';
-  const url = new URL(path, baseUrl).href;
-
+  const url = 'http://127.0.0.1:9740/paylnaddress';
   let data = new URLSearchParams();
   data.append('amountSat', amountSat);
   data.append('address', lnAddress);
@@ -155,8 +140,7 @@ export const payLnAddress = async (amountSat, lnAddress, message) => {
 
 
 export const getOffer = async () => {
-  const path = '/getoffer';
-  const url = new URL(path, baseUrl).href;
+  const url = 'http://127.0.0.1:9740/getoffer';
   try {
     const response = await axios.get(url, { headers });
     return response.data;
@@ -167,11 +151,8 @@ export const getOffer = async () => {
 }
 
 export const listIncomingAndOutgoing = async () => {
-  const path1 = '/payments/incoming?all=true&limit=1000000';
-  const path2 = '/payments/outgoing?all=true&limit=1000000';
-
-  const url1 = new URL(path1, baseUrl).href;
-  const url2 = new URL(path2, baseUrl).href;
+  const url1 = 'http://127.0.0.1:9740/payments/incoming?all=true&limit=1000000';
+  const url2 = 'http://127.0.0.1:9740/payments/outgoing?all=true&limit=1000000';
 
   try {
     const response1 = await axios.get(url1, { headers });
@@ -193,8 +174,7 @@ export const listIncomingAndOutgoing = async () => {
 }
 
 export const decodeOffer = async (offer) => {
-  const path = '/decodeoffer';
-  const url = new URL(path, baseUrl).href;
+  const url = 'http://127.0.0.1:9740/decodeoffer';
   let data = new URLSearchParams();
   data.append('offer', offer);
   try {
@@ -207,8 +187,7 @@ export const decodeOffer = async (offer) => {
 }
 
 export const decodeInvoice = async (invoice) => {
-  const path = '/decodeinvoice';
-  const url = new URL(path, baseUrl).href;
+  const url = 'http://127.0.0.1:9740/decodeinvoice';
   let data = new URLSearchParams();
   data.append('invoice', invoice);
   try {
