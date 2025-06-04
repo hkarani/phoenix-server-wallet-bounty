@@ -13,10 +13,11 @@ const httpPassword = configs["http-password"];
 const headers = {
   'Authorization': 'Basic ' + Buffer.from(`${username}:${httpPassword}`).toString('base64')
 };
-
+console.log('Using base URL:', baseUrl);
 export const getBalance = async () => {
   const path = '/getbalance';
   const url = new URL(path, baseUrl).href;
+  console.log('Using base URL:',url);
   try {
     const response = await axios.get(url, { headers });
     return response.data;
